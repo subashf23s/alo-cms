@@ -1,12 +1,18 @@
 import CFImage from '@/components/cf-image';
 import RichText from '@/components/rich-text';
-import { CFAsset, getProduct } from '@/lib/contentful';
+import { CFAsset, getAllSlugs, getProduct } from '@/lib/contentful';
 import { seoMetadata } from '@/lib/seo';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
 type ProductPageProps = Pick<PageProps<'/products/[slug]'>, 'params'>;
+
+export async function generateStaticParams() {
+  return (await getAllSlugs('product')).map((slug) => {
+    slug;
+  });
+}
 
 export async function generateMetadata({
   params,

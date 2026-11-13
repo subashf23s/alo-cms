@@ -106,3 +106,30 @@ export const getCategory = async (slug: string) =>
       limit: 1,
     }),
   );
+
+type SlugType = 'product' | 'category';
+export async function getAllSlugs(contentType: SlugType): Promise<string[]> {
+  if (!isConfigured) return [];
+  const slugs: string[] = [];
+  const limit = 1000;
+  try {
+    for (let skip = 0; ; skip += limit) {
+      const res = await clientFor(false).getEntries({
+        content_type: contentType,
+        select: ['sys.id', 'fields.slug'],
+        limit,
+        skip,
+      } as never);
+      for (const item of res.items) {
+        const slug = (item.fields as unknown as { slug?: string }).slug;
+        if (slug) slugs.push(slug);
+      }
+    }
+  } catch (error) {
+    console.error(
+      `[contentful] could not list slugs for ${contentType} : `,
+      error,
+    );
+  }
+  return slugs;
+}

@@ -1,6 +1,6 @@
 import CFImage from '@/components/cf-image';
 import RichText from '@/components/rich-text';
-import { getCategory } from '@/lib/contentful';
+import { getAllSlugs, getCategory } from '@/lib/contentful';
 import { seoMetadata } from '@/lib/seo';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
@@ -8,6 +8,11 @@ import { Suspense } from 'react';
 
 type CategoriesPageProps = Pick<PageProps<'/categories/[slug]'>, 'params'>;
 
+export async function generateStaticParams() {
+  return (await getAllSlugs('category')).map((slug) => {
+    slug;
+  });
+}
 export async function generateMetadata({
   params,
 }: CategoriesPageProps): Promise<Metadata> {
