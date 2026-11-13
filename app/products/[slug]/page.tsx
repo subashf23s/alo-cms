@@ -39,24 +39,24 @@ async function ProductPageView({ params }: ProductPageProps) {
       <h1>{slug}</h1>
       {/* <pre>{JSON.stringify(fields)}</pre> */}
       {/* Product Layout */}
-      <div className='grid grid-cols-7'>
+      <div className='grid grid-cols-3 gap-4 border-b border-b-gray-500 pb-10 mb-10'>
         {/* Gallery */}
-        <div className='col-span-4 grid grid-cols-2 gap-4'>
+        <div className='col-span-2 grid grid-cols-2 gap-4'>
           {images.map((a, i) => (
-            <div key={i} className='relative aspect-4/5 w-full h-125'>
+            <div key={i} className='relative aspect-square'>
               <CFImage
                 key={i}
                 asset={a}
-                fill
+                // fill
                 priority={i < 2}
                 sizes='(min-width: 900px) 12vw, 25vw'
-                className='object-contain'
+                className='object-cover'
               />
             </div>
           ))}
         </div>
         {/* Product Info */}
-        <div className='col-span-3'>
+        <div className=''>
           <div className='flex items-center gap-4 flex-wrap'>
             {badges.map((b) => (
               <span key={b} className='uppercase'>
@@ -64,10 +64,12 @@ async function ProductPageView({ params }: ProductPageProps) {
               </span>
             ))}
           </div>
-          <h1>{fields.title}</h1>
-          {fields.shortDescription && <p>{fields.shortDescription}</p>}
+          <h1 className='text-2xl font-semibold'>{fields.title}</h1>
+          {fields.shortDescription && (
+            <p className='text-base text-gray-800'>{fields.shortDescription}</p>
+          )}
           {features.length > 0 && (
-            <ul>
+            <ul className='list-disc ml-6 py-4 text-gray-700 text-sm'>
               {features.map((x) => (
                 <li key={x}>{x}</li>
               ))}

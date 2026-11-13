@@ -24,11 +24,11 @@ export default function CFImage({
     <Image
       src={src}
       alt={asset.fields.description || asset.fields.title || ''}
-      //   width={dims?.width ?? 1200}
-      //   height={dims?.height ?? 800}
+      width={dims?.width ?? 1200}
+      height={dims?.height ?? 800}
       sizes={sizes}
       priority={priority}
-      fill={fill}
+      //   fill={fill}
       className={className}
     />
   );
