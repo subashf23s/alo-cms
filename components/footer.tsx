@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
-    <footer>
-      <h4>THis is footer</h4>
+    <footer className='bg-black text-white p-10 '>
+      <h4 className='text-center'>All rights Reserved.</h4>
     </footer>
   );
 }
