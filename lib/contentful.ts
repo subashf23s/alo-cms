@@ -96,3 +96,13 @@ export const getProduct = async (slug: string) =>
       limit: 1,
     }),
   );
+
+export const getCategory = async (slug: string) =>
+  first(
+    await query(`category:${slug}`, {
+      content_type: 'category',
+      'fields.slug': slug,
+      include: 3,
+      limit: 1,
+    }),
+  );
