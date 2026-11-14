@@ -10,7 +10,7 @@ type CategoriesPageProps = Pick<PageProps<'/categories/[slug]'>, 'params'>;
 
 export async function generateStaticParams() {
   return (await getAllSlugs('category')).map((slug) => {
-    slug;
+    return { slug };
   });
 }
 export async function generateMetadata({
@@ -38,20 +38,9 @@ async function CategoriesPageView({ params }: CategoriesPageProps) {
   return (
     <>
       <section className='text-center'>
-        {/* <h1>{fields.name}</h1> */}
+        <h1 className='text-2xl font-semibold'>{fields.name}</h1>
         <RichText document={fields.intro} />
       </section>
-      {fields.bannerImage && (
-        <section className='relative w-full grid place-content-center'>
-          <CFImage
-            asset={fields.bannerImage}
-            priority
-            fill
-            sizes='100vw'
-            className='object-cover'
-          />
-        </section>
-      )}
     </>
   );
 }

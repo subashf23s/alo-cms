@@ -10,7 +10,7 @@ type ProductPageProps = Pick<PageProps<'/products/[slug]'>, 'params'>;
 
 export async function generateStaticParams() {
   return (await getAllSlugs('product')).map((slug) => {
-    slug;
+    return { slug };
   });
 }
 

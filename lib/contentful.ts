@@ -37,6 +37,7 @@ function clientFor(preview: boolean) {
           space,
           environment,
           accessToken: process.env.CONTENTFUL_DELIVERY_TOKEN ?? '',
+          timeout: 5000,
         },
   );
 }
@@ -110,20 +111,17 @@ export const getCategory = async (slug: string) =>
 type SlugType = 'product' | 'category';
 export async function getAllSlugs(contentType: SlugType): Promise<string[]> {
   if (!isConfigured) return [];
-  const slugs: string[] = [];
-  const limit = 1000;
+
+  let slugs: string[] = [];
+  const limit = 100;
   try {
-    for (let skip = 0; ; skip += limit) {
-      const res = await clientFor(false).getEntries({
-        content_type: contentType,
-        select: ['sys.id', 'fields.slug'],
-        limit,
-        skip,
-      } as never);
-      for (const item of res.items) {
-        const slug = (item.fields as unknown as { slug?: string }).slug;
-        if (slug) slugs.push(slug);
-      }
+    const res = await clientFor(false).getEntries({
+      content_type: contentType,
+      select: ['fields.slug'],
+      limit,
+    });
+    if (res.items) {
+      slugs = res.items.map((item) => item.fields.slug as string);
     }
   } catch (error) {
     console.error(
@@ -131,5 +129,6 @@ export async function getAllSlugs(contentType: SlugType): Promise<string[]> {
       error,
     );
   }
+
   return slugs;
 }
