@@ -88,6 +88,16 @@ async function query(
   }
 }
 const first = (items: CFEntry[]) => items[0] ?? null;
+
+export const getSiteSettings = async () =>
+  first(
+    await query('siteSettings', {
+      content_type: 'siteSettings',
+      include: 3,
+      limit: 1,
+    }),
+  );
+
 export const getProduct = async (slug: string) =>
   first(
     await query(`product:${slug}`, {
