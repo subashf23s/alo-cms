@@ -33,28 +33,44 @@ export default function Header({ settings }: Props) {
             <div key={item.sys.id} className='group'>
               <Link
                 href={navHref(item)}
-                className='py-10 relative text-gray-600 text-sm font-light  after:absolute after:top-14 after:left-0 after:h-0.5 after:w-0 after:bg-gray-500 after:transition-all after:duration-300 hover:after:w-full'
+                className='py-10 relative text-gray-600 text-lg font-light  hover:underline'
               >
                 {item.fields.label}
               </Link>
               {children.length > 0 && (
-                <ul className='absolute left-10 right-10 top-18 bg-white shadow invisible group-hover:visible px-10 py-5 border-t border-t-gray-200'>
-                  {children.map((child) => {
-                    // console.log('CHILD', child.fields);
-                    // console.log('CHILD LABEL', child.fields.label);
-                    // console.log('CHILD target', child.fields.target);
-                    return (
-                      <li key={child.sys.id}>
-                        <Link
-                          href={navHref(child)}
-                          className='relative text-gray-600 text-sm font-light pb-0.5 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gray-500 after:transition-all after:duration-300 hover:after:w-full'
-                        >
-                          {child.fields.label}
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ul>
+                <div className='absolute left-10 right-10 top-18 bg-white shadow invisible group-hover:visible px-10 py-5 border-t border-t-gray-200'>
+                  <div className='grid grid-cols-6'>
+                    {children.map((child) => {
+                      const grandChildren = resolved(child.fields.children);
+                      return (
+                        <ul key={child.sys.id}>
+                          <li className='pb-3'>
+                            <Link
+                              href={navHref(child)}
+                              className='relative text-black text-base font-light hover:underline'
+                            >
+                              {child.fields.label}
+                            </Link>
+                          </li>
+                          {grandChildren.length > 0 && (
+                            <>
+                              {grandChildren.map((grandChild) => (
+                                <li key={grandChild.sys.id} className='pb-1'>
+                                  <Link
+                                    href={navHref(grandChild)}
+                                    className='relative text-gray-600 text-base font-light hover:underline'
+                                  >
+                                    {grandChild.fields.label}
+                                  </Link>
+                                </li>
+                              ))}
+                            </>
+                          )}
+                        </ul>
+                      );
+                    })}
+                  </div>
+                </div>
               )}
             </div>
           );

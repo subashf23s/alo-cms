@@ -93,7 +93,7 @@ export const getSiteSettings = async () =>
   first(
     await query('siteSettings', {
       content_type: 'siteSettings',
-      include: 3,
+      include: 5,
       limit: 1,
     }),
   );
